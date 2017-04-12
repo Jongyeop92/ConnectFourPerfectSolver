@@ -137,9 +137,10 @@ def negamax(p, nowColor, nextColor):
     bestScore = -p.WIDTH * p.HEIGHT
     bestMove = None
 
-    tt[key] = []
+    if tt.get(key) == None:
+        tt[key] = []
 
-    for col in range(p.WIDTH):
+    for col in range(len(tt[key]), p.WIDTH):
         if p.canPlay(col):
             copyP = copy.deepcopy(p)
             copyP.play(col, nowColor)
@@ -200,8 +201,8 @@ if __name__ == "__main__":
     try:
         test()
         #main()
-    except Exception as e:
-        print e
+    except:
         print "saving tt..."
     finally:
         saveObject(tt, ttFileName)
+        print len(tt)
