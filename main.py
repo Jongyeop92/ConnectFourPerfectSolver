@@ -13,6 +13,7 @@
 
 import pickle
 import copy
+import time
 
 
 EMPTY  = '_'
@@ -126,12 +127,12 @@ def negamax(p, nowColor, nextColor):
         return tt[key]
 
     if p.moves == p.WIDTH * p.HEIGHT:
-        print "draw"
+        #print "draw"
         return [(0, None)]
 
     for col in range(p.WIDTH):
         if p.canPlay(col) and p.isWinningMove(col, nowColor):
-            print nowColor, "win"
+            #print nowColor, "win"
             return [((p.WIDTH * p.HEIGHT + 1 - p.moves) / 2, col)]
 
     bestScore = -p.WIDTH * p.HEIGHT
@@ -157,12 +158,18 @@ def negamax(p, nowColor, nextColor):
 
     return tt[key]
 
+print "Load"
+print time.asctime()
 
 ttFileName = "connect_four_tt"
 try:
     tt = loadObject(ttFileName)
-except:
+except Exception as e:
+    print e
     tt = {}
+
+print "Start:", len(tt)
+print time.asctime()
 
 
 def test():
@@ -202,7 +209,12 @@ if __name__ == "__main__":
         test()
         #main()
     except:
-        print "saving tt..."
+        pass
     finally:
+        print "End  :", len(tt)
+        print time.asctime()
+        
         saveObject(tt, ttFileName)
-        print len(tt)
+
+        print "Save"
+        print time.asctime()
